@@ -1,23 +1,26 @@
 // Library to check new plugin update
 // Copyright 2014 Florian Peninon. All rights reserved.
-// This library use the number of character contained in each files to know if the local version of the plugin is the last one
+String.prototype.hashCode = function() {
+  return this.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+}
+
 
 // Paste your master github raw version url here
 // Example : https://raw.githubusercontent.com/florianpnn/sketch-data-parser/master/sketch-data-parser.sketchplugin
 var pluginUrl = '';
 
-// Grab the master version of the plugin from the URL and store the exact length of the file
+// Grab the master version of the plugin from the URL and store the hash for the file
 var tmpPluginMaster = get(pluginUrl);
 var pluginMaster = NSString.alloc().initWithData_encoding(tmpPluginMaster, NSUTF8StringEncoding);
-var pluginMasterLength = pluginMaster.length();
+var pluginMasterHash = pluginMaster.hashCode();
 
-// Grab the local version and store the length
+// Grab the local version and store the hash
 var scriptPath = sketch.scriptPath;
 var currentPlugin = [NSString stringWithContentsOfFile:scriptPath encoding:NSUTF8StringEncoding error:nil];
-var currentPluginLength = currentPlugin.length();
+var currentPluginHash = currentPlugin.hashCode();
 
-// Show an alert if length are different
-if (pluginMasterLength != currentPluginLength) {
+// Show an alert if hashes are different
+if (pluginMasterHash != currentPluginHash) {
   alert('A new version of this plugin is available! Download it here : ' + pluginUrl,'New version available');
 }
 
