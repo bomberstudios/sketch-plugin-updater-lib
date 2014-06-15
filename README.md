@@ -18,5 +18,9 @@ The only step needed to make it work with your plugin is importing the file in y
 
 ### How it works?
 
-The library analyze the number of character contained in both the remote and the local version of the plugin.
-If the length is different a modal shows up to inform you that a new version is available and give you the url where you can download it.
+The library calculates a string hash of the plugin's code, in both the remote and the local versions of the plugin.
+If the hashes are different, a modal shows up to inform you that a new version is available and give you the url where you can download it.
+
+### Credits
+
+String hash function taken from [this StackOverflow thread](http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery).
